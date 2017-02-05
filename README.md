@@ -1,13 +1,10 @@
-# csvdedupe
+# rayyan-dedup
 
-Command line tools for using the [dedupe python library](https://github.com/open-city/dedupe/) for deduplicating CSV files.
+Command line tools for using the [dedupe python library](https://github.com/datamade/dedupe) for deduplicating Rayyan review articles.
 
-`csvdedupe` - takes a messy input file or STDIN pipe and identifies duplicates.
+`rayyan-dedup` - takes review id and identifies duplicates.
 
-[Read more about csvdedupe on OpenNews Source](http://source.opennews.org/en-US/articles/introducing-cvsdedupe/)
-
-
-[![Build Status](https://travis-ci.org/datamade/csvdedupe.png?branch=master)](https://travis-ci.org/datamade/csvdedupe)
+[![Build Status](https://travis-ci.org/daqcri/rayyan-dedup.png?branch=master)](https://travis-ci.org/daqcri/rayyan-dedup)
 
 ## Installation and dependencies
 
@@ -23,131 +20,27 @@ mkvirtualenv rayyan-dedup
 pip install -r requirements.txt
 ```
 
-## Getting Started
-
-### csvdedupe
-
-`csvdedupe` takes a messy input file or STDIN pipe and identifies duplicates. To get started, pick one of three deduping strategies: call `csvdedupe` with arguments, pipe your file using UNIX, or define a config file.
-
-Provide an input file, field names, and output file:
-```bash
-csvdedupe examples/csv_example_messy_input.csv \
-          --field_names "Site name" Address Zip Phone \
-          --output_file output.csv
-```
-
-__or__
-
-Pipe it, UNIX style:
-```bash
-cat examples/csv_example_messy_input.csv | csvdedupe --skip_training \
-          --field_names "Site name" Address Zip Phone > output.csv
-```
-
-__or__
-
-Define everything in a config file:
-```bash
-csvdedupe examples/csv_example_messy_input.csv \
-            --config_file=config.json
-```
-
-**Your config file may look like this:**
-
-```json
-{
-  "field_names": ["Site name", "Address", "Zip", "Phone"],
-  "field_definitions" : [{"field" : "Site name", "type" : "String"},
-                        {"field" : "Address", "type" : "String"},
-                        {"field" : "Zip", "type" : "String",
-                         "Has Missing" : true},
-                        {"field" : "Phone", "type" : "String",
-                         "Has Missing" : true}],
-  "output_file": "examples/output.csv",
-  "skip_training": false,
-  "training_file": "training.json",
-  "sample_size": 150000,
-  "recall_weight": 2
-}
-```
-
-#### To use `csvdedupe` you absolutely need:
-
-  * `input` a CSV file name or piped CSV file to deduplicate
-
-Either
-  * `--config_file` Path to configuration file.
-
-Or
-  * `--field_names` List of column names for dedupe to pay attention to
-
-#### You may also need:
-  * `--output_file OUTPUT_FILE`
-                        CSV file to store deduplication results (default:
-                        None)
-  * `--destructive`         Output file will contain unique records only
-  * `--skip_training`       Skip labeling examples by user and read training from
-                        training_file only (default: False)
-  * `--training_file TRAINING_FILE`
-                        Path to a new or existing file consisting of labeled
-                        training examples (default: training.json)
-  * `--sample_size SAMPLE_SIZE`
-                        Number of random sample pairs to train off of
-                        (default: 150000)
-  * `--recall_weight RECALL_WEIGHT`
-                        Threshold that will maximize a weighted average of our
-                        precision and recall (default: 2)
-  * `-h`, `--help`            show help message and exit
-
-
 ## Training
 
-The _secret sauce_ of csvdedupe is human input. In order to figure out the best rules to deduplicate a set of data, you must give it a set of labeled examples to learn from.
+Check `arXiv-training` sub-directory for more information on training with arXiv data.
 
-The more labeled examples you give it, the better the deduplication results will be. At minimum, you should try to provide __10 positive matches__ and __10 negative matches__.
+## Usage
 
-The results of your training will be saved in a JSON file ( __training.json__, unless specified otherwise with the `--training-file` option) for future runs of csvdedupe.
+Database connection string should be set in environment before invoking `rayyan-dedup`:
 
-Here's an example labeling operation:
+    export DATABASE_URL=postgres://user:password@host:port/database
 
-```bash
-Phone :  2850617
-Address :  3801 s. wabash
-Zip :
-Site name :  ada s. mckinley st. thomas cdc
+On heroku, `DATABASE_URL` is automatically set when Heroku PostgresQL add-on is provisioned.
 
-Phone :  2850617
-Address :  3801 s wabash ave
-Zip :
-Site name :  ada s. mckinley community services - mckinley - st. thomas
+    # without abstracts
+    model=model.10k
+    time rayyan-dedup --review_id <XYZ> --config_file arXiv-dedupe-config.json --skip_training --settings_file $model
+    
+    # with abstracts
+    model=model.10k.abs
+    time rayyan-dedup --review_id <XYZ> --config_file arXiv-dedupe-config.abs.json --skip_training --settings_file $model
 
-Do these records refer to the same thing?
-(y)es / (n)o / (u)nsure / (f)inished
-```
-
-## Output
-`csvdedupe` attempts to identify all the rows in the csv that refer to the same thing. Each group of
-such records are called a cluster. `csvdedupe` returns your input file with an additional column called `Cluster ID`,
-that either is the numeric id (zero-indexed) of a cluster of grouped records or an `x` if csvdedupe believes
-the record doesn't belong to any cluster.
-
-## Preprocessing
-csvdedupe attempts to convert all strings to ASCII, ignores case, new lines, and padding whitespace. This is all
-probably uncontroversial except the conversion to ASCII. Basically, we had to choose between two ways of handling
-extended characters.
-
-```
-distance("Tomas", "Tomás')  = distance("Tomas", "Tomas")
-```
-
-__or__
-
-```
-distance("Tomas, "Tomás") = distance("Tomas", "Tomzs")
-```
-
-We chose the first option. While it is possible to do something more sophisticated, this option seems to work pretty well
-for Latin alphabet languages.
+Results are stored in the database.
 
 ## Testing
 
@@ -162,6 +55,8 @@ nosetests
 * IRC channel, #dedupe on irc.freenode.net
 
 ## Errors and Bugs
+
+This is a fork from the original [csvdedupe](https://github.com/datamade/csvdedupe).
 
 If something is not behaving intuitively, it is a bug, and should be reported.
 Report it [here](https://github.com/datamade/csvdedupe/issues).
