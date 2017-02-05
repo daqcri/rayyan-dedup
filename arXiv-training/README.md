@@ -24,8 +24,8 @@ Download arXiv dedup training dataset:
     
 ### Cut a sample from dedup dataset to play with
 
-    head -10000 arXiv.docs > arXiv.doc.10k
-    head -100000 arXiv.docs > arXiv.doc.100k
+    head -10000 arXiv.docs > arXiv.docs.10k
+    head -100000 arXiv.docs > arXiv.docs.100k
 
 ### Create a training file that dedupe can understand
 
@@ -42,8 +42,8 @@ Download arXiv dedup training dataset:
     ./tsv2csv.js < arXiv.docs.100k > arXiv.docs.100k.csv
     
     # with abstracts
-    ./tsv2csv.js abstracts/abstracts.tsv < arXiv.docs.10k > arXiv.docs.abs.10k.csv
-    ./tsv2csv.js abstracts/abstracts.tsv < arXiv.docs.100k > arXiv.docs.abs.100k.csv
+    ./tsv2csv.js abstracts/abstracts.tsv < arXiv.docs.10k > arXiv.docs.10k.abs.csv
+    ./tsv2csv.js abstracts/abstracts.tsv < arXiv.docs.100k > arXiv.docs.100k.abs.csv
 
 ### Train a dedupe model
 
