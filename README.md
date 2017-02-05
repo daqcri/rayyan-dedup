@@ -16,9 +16,10 @@ We recommend using [virtualenv](http://virtualenv.readthedocs.org/en/latest/virt
 Once you have virtualenvwrapper set up,
 
 ```bash
-mkvirtualenv csvdedupe
 git clone git@github.com:daqcri/rayyan-dedup.git
 cd rayyan-dedup
+. virtualenvwrapper.sh
+mkvirtualenv rayyan-dedup
 pip install -r requirements.txt
 ```
 
