@@ -57,7 +57,7 @@ def readReviewData(review_id, dbstring, with_abstracts=None):
         GROUP BY articles.id""" %(select_abstracts, join_abstracts, review_id)
 
     cursor.execute(query)
-    data_values = cursor.fetchall() 
+    data_values = cursor.fetchall()
 
     # TODO treat year is integer
     data = {}
@@ -67,7 +67,7 @@ def readReviewData(review_id, dbstring, with_abstracts=None):
         year = row[3] or row[4] or row[5]
         year = str(int(year)) if year else None
         data[article_id] = {
-            "article_id": article_id,
+            "id": article_id,
             "title": preProcess(__makeunicode(row[1])),
             "journal": preProcess(__makeunicode(row[2])),
             "year": year,
@@ -77,4 +77,4 @@ def readReviewData(review_id, dbstring, with_abstracts=None):
     
     # return all the articles
     connector.disconnect_database(conn)
-    return data; 
+    return data
