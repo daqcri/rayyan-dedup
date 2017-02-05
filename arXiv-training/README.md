@@ -50,19 +50,19 @@ Download arXiv dedup training dataset:
     # without abstracts
     model=mymodel.10k
     rm $model
-    time rayyan-dedup arXiv.docs.10k.csv --training_file arXiv-training.10k.json --config_file arXiv-dedupe-config.json --output_file arXiv.docs.10k.dedup.csv --settings_file $model
+    time ../rayyan-dedup arXiv.docs.10k.csv --training_file arXiv-training.10k.json --config_file arXiv-dedupe-config.json --output_file arXiv.docs.10k.dedup.csv --settings_file $model
     
     # with abstracts
     model=mymodel.10k.abs
     rm $model
-    time rayyan-dedup arXiv.docs.10k.abs.csv --training_file arXiv-training.10k.abs.json --config_file arXiv-dedupe-config.abs.json --output_file arXiv.docs.10k.abs.dedup.csv --settings_file $model
+    time ../rayyan-dedup arXiv.docs.10k.abs.csv --training_file arXiv-training.10k.abs.json --config_file arXiv-dedupe-config.abs.json --output_file arXiv.docs.10k.abs.dedup.csv --settings_file $model
 
 ### Test the dedupe model on unseen data
 
     # without abstracts
     model=mymodel.10k
-    time rayyan-dedup arXiv.docs.100k.csv --config_file arXiv-dedupe-config.json --output_file arXiv.docs.100k.dedup.csv --skip_training --settings_file $model
+    time ../rayyan-dedup arXiv.docs.100k.csv --config_file arXiv-dedupe-config.json --output_file arXiv.docs.100k.dedup.csv --skip_training --settings_file $model
     
     # with abstracts
     model=mymodel.10k.abs
-    time rayyan-dedup arXiv.docs.100k.abs.csv --config_file arXiv-dedupe-config.abs.json --output_file arXiv.docs.100k.abs.dedup.csv --skip_training --settings_file $model
+    time ../rayyan-dedup arXiv.docs.100k.abs.csv --config_file arXiv-dedupe-config.abs.json --output_file arXiv.docs.100k.abs.dedup.csv --skip_training --settings_file $model
