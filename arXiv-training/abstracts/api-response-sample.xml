@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <link href="http://arxiv.org/api/query?search_query%3D%26id_list%3D0704.0006%2C0704.0007%26start%3D0%26max_results%3D10" rel="self" type="application/atom+xml"/>
+  <title type="html">ArXiv Query: search_query=&amp;id_list=0704.0006,0704.0007&amp;start=0&amp;max_results=10</title>
+  <id>http://arxiv.org/api/DppCG+kuF4T6BRf290Gq0nWI40M</id>
+  <updated>2017-02-01T00:00:00-05:00</updated>
+  <opensearch:totalResults xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">2</opensearch:totalResults>
+  <opensearch:startIndex xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">0</opensearch:startIndex>
+  <opensearch:itemsPerPage xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">10</opensearch:itemsPerPage>
+  <entry>
+    <id>http://arxiv.org/abs/0704.0006v1</id>
+    <updated>2007-03-31T04:24:59Z</updated>
+    <published>2007-03-31T04:24:59Z</published>
+    <title>Bosonic characters of atomic Cooper pairs across resonance</title>
+    <summary>  We study the two-particle wave function of paired atoms in a Fermi gas with
+tunable interaction strengths controlled by Feshbach resonance. The Cooper pair
+wave function is examined for its bosonic characters, which is quantified by
+the correction of Bose enhancement factor associated with the creation and
+annihilation composite particle operators. An example is given for a
+three-dimensional uniform gas. Two definitions of Cooper pair wave function are
+examined. One of which is chosen to reflect the off-diagonal long range order
+(ODLRO). Another one corresponds to a pair projection of a BCS state. On the
+side with negative scattering length, we found that paired atoms described by
+ODLRO are more bosonic than the pair projected definition. It is also found
+that at $(k_F a)^{-1} \ge 1$, both definitions give similar results, where more
+than 90% of the atoms occupy the corresponding molecular condensates.
+</summary>
+    <author>
+      <name>Y. H. Pong</name>
+    </author>
+    <author>
+      <name>C. K. Law</name>
+    </author>
+    <arxiv:doi xmlns:arxiv="http://arxiv.org/schemas/atom">10.1103/PhysRevA.75.043613</arxiv:doi>
+    <link title="doi" href="http://dx.doi.org/10.1103/PhysRevA.75.043613" rel="related"/>
+    <arxiv:comment xmlns:arxiv="http://arxiv.org/schemas/atom">6 pages, 4 figures, accepted by PRA</arxiv:comment>
+    <link href="http://arxiv.org/abs/0704.0006v1" rel="alternate" type="text/html"/>
+    <link title="pdf" href="http://arxiv.org/pdf/0704.0006v1" rel="related" type="application/pdf"/>
+    <arxiv:primary_category xmlns:arxiv="http://arxiv.org/schemas/atom" term="cond-mat.mes-hall" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cond-mat.mes-hall" scheme="http://arxiv.org/schemas/atom"/>
+  </entry>
+  <entry></entry>
+  <entry>
+    <id>http://arxiv.org/abs/0704.0007v2</id>
+    <updated>2007-08-22T22:42:11Z</updated>
+    <published>2007-03-31T04:27:22Z</published>
+    <title>Polymer Quantum Mechanics and its Continuum Limit</title>
+    <summary>  A rather non-standard quantum representation of the canonical commutation
+relations of quantum mechanics systems, known as the polymer representation has
+gained some attention in recent years, due to its possible relation with Planck
+scale physics. In particular, this approach has been followed in a symmetric
+sector of loop quantum gravity known as loop quantum cosmology. Here we explore
+different aspects of the relation between the ordinary Schroedinger theory and
+the polymer description. The paper has two parts. In the first one, we derive
+the polymer quantum mechanics starting from the ordinary Schroedinger theory
+and show that the polymer description arises as an appropriate limit. In the
+second part we consider the continuum limit of this theory, namely, the reverse
+process in which one starts from the discrete theory and tries to recover back
+the ordinary Schroedinger quantum mechanics. We consider several examples of
+interest, including the harmonic oscillator, the free particle and a simple
+cosmological model.
+</summary>
+    <author>
+      <name>Alejandro Corichi</name>
+    </author>
+    <author>
+      <name>Tatjana Vukasinac</name>
+    </author>
+    <author>
+      <name>Jose A. Zapata</name>
+    </author>
+    <arxiv:doi xmlns:arxiv="http://arxiv.org/schemas/atom">10.1103/PhysRevD.76.044016</arxiv:doi>
+    <link title="doi" href="http://dx.doi.org/10.1103/PhysRevD.76.044016" rel="related"/>
+    <arxiv:comment xmlns:arxiv="http://arxiv.org/schemas/atom">16 pages, no figures. Typos corrected to match published version</arxiv:comment>
+    <arxiv:journal_ref xmlns:arxiv="http://arxiv.org/schemas/atom">Phys.Rev.D76:044016,2007</arxiv:journal_ref>
+    <link href="http://arxiv.org/abs/0704.0007v2" rel="alternate" type="text/html"/>
+    <link title="pdf" href="http://arxiv.org/pdf/0704.0007v2" rel="related" type="application/pdf"/>
+    <arxiv:primary_category xmlns:arxiv="http://arxiv.org/schemas/atom" term="gr-qc" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="gr-qc" scheme="http://arxiv.org/schemas/atom"/>
+  </entry>
+</feed>

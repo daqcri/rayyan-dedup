@@ -1,0 +1,7 @@
+{
+  "field_names": ["title", "journal", "authors", "year"],
+  "field_definitions" : [{"field" : "title", "type" : "String", "has missing" : true},
+                        {"field" : "journal", "type" : "String", "has missing": true},
+                        {"field" : "authors", "type" : "String", "has missing" : true},
+                        {"field" : "year", "type" : "String", "has missing" : true}]
+}

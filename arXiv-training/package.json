@@ -1,0 +1,25 @@
+{
+  "name": "arxiv-dataset-tools",
+  "version": "0.0.1",
+  "description": "Tools to convert arXiv-dataset to formats dedupe python library can understand",
+  "main": "convert-arXiv-dups-to-dedupe-training.js",
+  "dependencies": {
+    "csv": "^1.1.1",
+    "unidecode": "^0.1.8",
+    "xml2js": "^0.4.17"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hossam Hammady <github@hammady.net>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daqcri/rayyan-dedup.git"
+  },
+  "bugs": {
+    "url": "https://github.com/daqcri/rayyan-dedup/issues"
+  },
+  "homepage": "https://github.com/daqcri/rayyan-dedup#readme"
+}

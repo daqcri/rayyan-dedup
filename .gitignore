@@ -10,7 +10,7 @@ logfile
 *.html
 .#*
 *.*#
-*.json
+.*.json
 *.db
 .DS_Store
 *.egg-info
