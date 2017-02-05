@@ -38,7 +38,7 @@ On heroku, `DATABASE_URL` is automatically set when Heroku PostgresQL add-on is 
     
     # with abstracts
     model=model.10k.abs
-    time ./rayyan-dedup --review_id <XYZ> --config_file arXiv-training/arXiv-dedupe-config.abs.json --skip_training --settings_file $model
+    time ./rayyan-dedup --review_id <XYZ> --with_abstracts --config_file arXiv-training/arXiv-dedupe-config.abs.json --skip_training --settings_file $model
 
 Results are stored in the database.
 

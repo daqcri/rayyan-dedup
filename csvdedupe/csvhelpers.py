@@ -126,47 +126,6 @@ def writeUniqueResults(clustered_dupes, input_file, output_file):
             row.insert(0, cluster_id)
             writer.writerow(row)
 
-
-def writeLinkedResults(clustered_pairs, input_1, input_2, output_file,
-                       inner_join=False):
-    logging.info('saving unique results to: %s' % output_file)
-
-    matched_records = []
-    seen_1 = set()
-    seen_2 = set()
-
-    input_1 = [row for row in csv.reader(StringIO(input_1))]
-    row_header = input_1.pop(0)
-    length_1 = len(row_header)
-
-    input_2 = [row for row in csv.reader(StringIO(input_2))]
-    row_header_2 = input_2.pop(0)
-    length_2 = len(row_header_2)
-    row_header += row_header_2
-
-    for pair in clustered_pairs:
-        index_1, index_2 = [int(index.split('|', 1)[1]) for index in pair[0]]
-
-        matched_records.append(input_1[index_1] + input_2[index_2])
-        seen_1.add(index_1)
-        seen_2.add(index_2)
-
-    writer = csv.writer(output_file)
-    writer.writerow(row_header)
-
-    for matches in matched_records:
-        writer.writerow(matches)
-
-    if not inner_join:
-
-        for i, row in enumerate(input_1):
-            if i not in seen_1:
-                writer.writerow(row + [None] * length_2)
-
-        for i, row in enumerate(input_2):
-            if i not in seen_2:
-                writer.writerow([None] * length_1 + row)
-
 class CSVCommand(object) :
     def __init__(self) :
         self.parser = argparse.ArgumentParser(
@@ -203,6 +162,8 @@ class CSVCommand(object) :
                                                'learned_settings')
         self.sample_size = self.configuration.get('sample_size', 1500)
         self.recall_weight = self.configuration.get('recall_weight', 1)
+        self.review_id = self.configuration.get('review_id', None)
+        self.with_abstracts = self.configuration.get('with_abstracts', None)
 
         if 'field_definition' in self.configuration:
             self.field_definition = self.configuration['field_definition']
@@ -212,6 +173,10 @@ class CSVCommand(object) :
 
     def _common_args(self) :
         # optional arguments
+        self.parser.add_argument('--review_id', type=int,
+            help='Review id to deduplicate')
+        self.parser.add_argument('--with_abstracts', action='store_true',
+            help='If review id is given, use abstracts for deduplication or not')
         self.parser.add_argument('--config_file', type=str,
             help='Path to configuration file. Must provide either a config_file or input and field_names.')
         self.parser.add_argument('--field_names', type=str, nargs="+",

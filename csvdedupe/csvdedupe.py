@@ -7,6 +7,7 @@ import locale
 import logging
 from io import StringIO, open
 from . import csvhelpers
+from . import rayyanhelpers
 import dedupe
 
 import itertools
@@ -18,8 +19,14 @@ class CSVDedupe(csvhelpers.CSVCommand) :
 
         # set defaults
         try:
-            # take in STDIN input or open the file
-            if hasattr(self.configuration['input'], 'read'):
+            # take in review_id, STDIN input or open the file
+            if self.review_id:
+                self.dbstring = os.environ.get('DATABASE_URL')
+                if self.dbstring == None:
+                    raise BaseException('No DATABASE_URL found in environment')
+                self.input = None
+                # skip reading STDIN or input files
+            elif hasattr(self.configuration['input'], 'read'):
                 if not sys.stdin.isatty():
                     self.input = self.configuration['input'].read()
                     # We need to get control of STDIN again.
@@ -64,16 +71,20 @@ class CSVDedupe(csvhelpers.CSVCommand) :
     def main(self):
 
         data_d = {}
-        # import the specified CSV file
 
-        data_d = csvhelpers.readData(self.input, self.field_names)
+        if self.review_id:
+            # read review from db
+            data_d = rayyanhelpers.readReviewData(int(self.review_id), self.dbstring, self.with_abstracts)
+        else:
+            # import the specified CSV file
+            data_d = csvhelpers.readData(self.input, self.field_names)
 
         logging.info('imported %d rows', len(data_d))
 
         # sanity check for provided field names in CSV file
         for field in self.field_definition:
             if field['type'] != 'Interaction':
-                if not field['field'] in data_d[0]:
+                if not field['field'] in data_d.items()[0][1]:
 
                     raise self.parser.error("Could not find field '" +
                                             field['field'] + "' in input")
