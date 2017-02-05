@@ -14,10 +14,10 @@ if sys.version < '3' :
 else :
     import csv
 
-
 import dedupe
 import json
 import argparse
+from unidecode import unidecode
 
 def preProcess(column):
     """
@@ -29,15 +29,12 @@ def preProcess(column):
     column = re.sub('  +', ' ', column)
     column = re.sub('\n', ' ', column)
     column = column.strip().strip('"').strip("'").lower().strip()
-    if column == '' :
-        column = None
-    return column
-
+    return None if column == '' else unidecode(column)
 
 def readData(input_file, field_names, prefix=None):
     """
-    Read in our data from a CSV file and create a dictionary of records, 
-    where the key is a unique record ID and each value is a dict 
+    Read in our data from a CSV file and create a dictionary of records,
+    where the key is a unique record ID and each value is a dict
     of the row fields.
 
     **Currently, dedupe depends upon records' unique ids being integers
@@ -46,7 +43,7 @@ def readData(input_file, field_names, prefix=None):
     """
 
     data = {}
-    
+
     reader = csv.DictReader(StringIO(input_file))
     for i, row in enumerate(reader):
         clean_row = {k: preProcess(v) for (k, v) in row.items() if k is not None}
@@ -62,7 +59,7 @@ def readData(input_file, field_names, prefix=None):
 # ## Writing results
 def writeResults(clustered_dupes, input_file, output_file):
 
-    # Write our original data back out to a CSV with a new column called 
+    # Write our original data back out to a CSV with a new column called
     # 'Cluster ID' which indicates which records refer to each other.
 
     logging.info('saving results to: %s' % output_file)
@@ -95,7 +92,7 @@ def writeResults(clustered_dupes, input_file, output_file):
 # ## Writing results
 def writeUniqueResults(clustered_dupes, input_file, output_file):
 
-    # Write our original data back out to a CSV with a new column called 
+    # Write our original data back out to a CSV with a new column called
     # 'Cluster ID' which indicates which records refer to each other.
 
     logging.info('saving unique results to: %s' % output_file)
@@ -223,13 +220,13 @@ class CSVCommand(object) :
             help='CSV file to store deduplication results')
         self.parser.add_argument('--skip_training', action='store_true',
             help='Skip labeling examples by user and read training from training_files only')
-        self.parser.add_argument('--training_file', type=str, 
+        self.parser.add_argument('--training_file', type=str,
             help='Path to a new or existing file consisting of labeled training examples')
         self.parser.add_argument('--settings_file', type=str,
             help='Path to a new or existing file consisting of learned training settings')
-        self.parser.add_argument('--sample_size', type=int, 
+        self.parser.add_argument('--sample_size', type=int,
             help='Number of random sample pairs to train off of')
-        self.parser.add_argument('--recall_weight', type=int, 
+        self.parser.add_argument('--recall_weight', type=int,
             help='Threshold that will maximize a weighted average of our precision and recall')
         self.parser.add_argument('-v', '--verbose', action='count', default=0)
 
