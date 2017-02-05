@@ -13,7 +13,7 @@ Download arXiv dedup training dataset:
     
 ## How-to
 
-# Crawl arXiv for abstracts
+### Crawl arXiv for abstracts
 
     cd abstracts
     # crawl arXiv API in batches
@@ -22,12 +22,12 @@ Download arXiv dedup training dataset:
     for i in *.xml; do ./parse-arXiv-abstracts.js $i; done > abstracts.tsv
     cd ..
     
-# Cut a sample from dedup dataset to play with
+### Cut a sample from dedup dataset to play with
 
     head -10000 arXiv.docs > arXiv.doc.10k
     head -100000 arXiv.docs > arXiv.doc.100k
 
-# Create a training file that dedupe can understand
+### Create a training file that dedupe can understand
 
     # without abstracts
     cat arXiv.duplicates arXiv.nonDuplicates | time ./convert-arXiv-dups-to-dedupe-training.js arXiv.docs.10k > arXiv-training.10k.json
@@ -35,7 +35,7 @@ Download arXiv dedup training dataset:
     # with abstracts
     cat arXiv.duplicates arXiv.nonDuplicates | time ./convert-arXiv-dups-to-dedupe-training.js arXiv.docs.10k abstracts/abstracts.tsv > arXiv-training.10k.abs.json
 
-# Convert arXiv input TSV to CSV with headers (and abstracts)
+### Convert arXiv input TSV to CSV with headers (and abstracts)
 
     # without abstracts
     ./tsv2csv.js < arXiv.docs.10k > arXiv.docs.10k.csv
@@ -45,7 +45,7 @@ Download arXiv dedup training dataset:
     ./tsv2csv.js abstracts/abstracts.tsv < arXiv.docs.10k > arXiv.docs.abs.10k.csv
     ./tsv2csv.js abstracts/abstracts.tsv < arXiv.docs.100k > arXiv.docs.abs.100k.csv
 
-# Train a dedupe model
+### Train a dedupe model
 
     # without abstracts
     model=mymodel.10k
@@ -57,7 +57,7 @@ Download arXiv dedup training dataset:
     rm $model
     time csvdedupe arXiv.docs.10k.abs.csv --training_file arXiv-training.10k.abs.json --config_file arXiv-dedupe-config.abs.json --output_file arXiv.docs.10k.abs.dedup.csv --settings_file $model
 
-# Test the dedupe model on unseen data
+### Test the dedupe model on unseen data
 
     # without abstracts
     model=mymodel.10k
