@@ -53,7 +53,7 @@ def readReviewData(review_id, dbstring, with_abstracts=None):
         %s
         LEFT JOIN articles_authors ON articles.id = articles_authors.article_id
         LEFT JOIN authors ON articles_authors.author_id = authors.id
-        WHERE searches.review_id = %d AND searches.marked_as_deleted IS NULL
+        WHERE searches.review_id in (%s) AND searches.marked_as_deleted IS NULL
         GROUP BY articles.id""" %(select_abstracts, join_abstracts, review_id)
 
     cursor.execute(query)

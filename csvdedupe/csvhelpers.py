@@ -173,8 +173,8 @@ class CSVCommand(object) :
 
     def _common_args(self) :
         # optional arguments
-        self.parser.add_argument('--review_id', type=int,
-            help='Review id to deduplicate')
+        self.parser.add_argument('--review_id', type=str,
+            help='Review id to deduplicate, or comma separated ids to train with')
         self.parser.add_argument('--with_abstracts', action='store_true',
             help='If review id is given, use abstracts for deduplication or not')
         self.parser.add_argument('--config_file', type=str,

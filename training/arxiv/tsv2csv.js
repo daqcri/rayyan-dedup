@@ -7,12 +7,15 @@ if (abstracts_file) {
   fields.push("abstract");
   require('./load-abstracts')(abstracts_file, process_stdin)
 }
+else
+  process_stdin(null);
 
 function process_stdin(abstracts) {
   process.stdout.write(fields.join(",") + "\n");
   process.stdin
     .pipe(csv.parse({delimiter: '\t', relax: true}))
     .pipe(csv.transform(function(row){
+      if (!abstracts) return row;
       var arxiv_id = row[5].replace(/^arxiv:/, '')
       var abstract = abstracts[arxiv_id] || '';
       row.push(abstract);

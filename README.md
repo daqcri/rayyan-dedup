@@ -22,7 +22,7 @@ pip install -r requirements.txt
 
 ## Training
 
-Check `arXiv-training` sub-directory for more information on training with arXiv data.
+Check `training` sub-directory for more information on training with arXiv or qcrowd data.
 
 ## Usage
 
@@ -33,12 +33,12 @@ Database connection string should be set in environment before invoking `rayyan-
 On heroku, `DATABASE_URL` is automatically set when Heroku PostgresQL add-on is provisioned.
 
     # without abstracts
-    model=model.10k
-    time ./rayyan-dedup --review_id <XYZ> --config_file arXiv-training/arXiv-dedupe-config.json --skip_training --settings_file $model
+    model=models/arXiv-model.10k
+    time ./rayyan-dedup --review_id <XYZ> --config_file config/dedupe-config.json --skip_training --settings_file $model
     
     # with abstracts
-    model=model.10k.abs
-    time ./rayyan-dedup --review_id <XYZ> --with_abstracts --config_file arXiv-training/arXiv-dedupe-config.abs.json --skip_training --settings_file $model
+    model=models/arXiv-model.10k.abs
+    time ./rayyan-dedup --review_id <XYZ> --with_abstracts --config_file config/dedupe-config.abs.json --skip_training --settings_file $model
 
 Results are stored in the database.
 

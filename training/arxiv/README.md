@@ -1,18 +1,12 @@
-## Installation
+## arXiv training recipes
 
-Install [NodeJS](https://nodejs.org/en/), then grab dependancies:
-
-    npm install
-
-Download arXiv dedup training dataset:
+### Download arXiv dedup training dataset:
 
     git clone git@github.com:JamesAHammerton/arxivDeduplicationDataset.git
     cd arxivDeduplicationDataset
     unzip arXiv500K_released.zip
     for i in arXiv.docs arXiv.duplicates arXiv.nonDuplicates; do cp -v $i ..; done
     
-## How-to
-
 ### Crawl arXiv for abstracts
 
     cd abstracts
@@ -27,7 +21,7 @@ Download arXiv dedup training dataset:
     head -10000 arXiv.docs > arXiv.docs.10k
     head -100000 arXiv.docs > arXiv.docs.100k
 
-### Create a training file that dedupe can understand
+### Create an arXiv training file that dedupe can understand
 
     # without abstracts
     cat arXiv.duplicates arXiv.nonDuplicates | time ./convert-arXiv-dups-to-dedupe-training.js arXiv.docs.10k > arXiv-training.10k.json
@@ -50,19 +44,19 @@ Download arXiv dedup training dataset:
     # without abstracts
     model=mymodel.10k
     rm $model
-    time ../rayyan-dedup arXiv.docs.10k.csv --training_file arXiv-training.10k.json --config_file arXiv-dedupe-config.json --output_file arXiv.docs.10k.dedup.csv --settings_file $model
+    time ../../rayyan-dedup arXiv.docs.10k.csv --training_file arXiv-training.10k.json --config_file ../../config/dedupe-config.json --output_file arXiv.docs.10k.dedup.csv --settings_file $model
     
     # with abstracts
     model=mymodel.10k.abs
     rm $model
-    time ../rayyan-dedup arXiv.docs.10k.abs.csv --training_file arXiv-training.10k.abs.json --config_file arXiv-dedupe-config.abs.json --output_file arXiv.docs.10k.abs.dedup.csv --settings_file $model
+    time ../../rayyan-dedup arXiv.docs.10k.abs.csv --training_file arXiv-training.10k.abs.json --config_file ../../config/dedupe-config.abs.json --output_file arXiv.docs.10k.abs.dedup.csv --settings_file $model
 
 ### Test the dedupe model on unseen data
 
     # without abstracts
     model=mymodel.10k
-    time ../rayyan-dedup arXiv.docs.100k.csv --config_file arXiv-dedupe-config.json --output_file arXiv.docs.100k.dedup.csv --skip_training --settings_file $model
+    time ../../rayyan-dedup arXiv.docs.100k.csv --config_file ../../config/dedupe-config.json --output_file arXiv.docs.100k.dedup.csv --skip_training --settings_file $model
     
     # with abstracts
     model=mymodel.10k.abs
-    time ../rayyan-dedup arXiv.docs.100k.abs.csv --config_file arXiv-dedupe-config.abs.json --output_file arXiv.docs.100k.abs.dedup.csv --skip_training --settings_file $model
+    time ../../rayyan-dedup arXiv.docs.100k.abs.csv --config_file ../../config/dedupe-config.abs.json --output_file arXiv.docs.100k.abs.dedup.csv --skip_training --settings_file $model
