@@ -74,7 +74,7 @@ class CSVDedupe(csvhelpers.CSVCommand) :
 
         if self.review_id:
             # read review from db
-            data_d = rayyanhelpers.readReviewData(int(self.review_id), self.dbstring, self.with_abstracts)
+            data_d = rayyanhelpers.readReviewData(self.review_id, self.dbstring, self.with_abstracts)
         else:
             # import the specified CSV file
             data_d = csvhelpers.readData(self.input, self.field_names)
