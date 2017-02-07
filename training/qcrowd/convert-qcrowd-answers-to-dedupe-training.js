@@ -75,10 +75,19 @@ function process_stdin() {
       if (!matches) throw new Error("Invalid question: " + tuple);
       var obj = {};
       for (var i = 0; i < fields.length; i++)
-        obj[fields[i]] = unidecode(matches[i + 1]);
+        obj[fields[i]] = safe_unidecode(matches[i + 1]) || null;
       if (with_abstracts)
-        obj.abstract = unidecode(matches[5]);
+        obj.abstract = safe_unidecode(matches[5]) || null;
       return obj;
+    }
+
+    function safe_unidecode(str) {
+      // unidecode is sometimes buggy for this: 'Ã®'
+      // https://github.com/FGRibreau/node-unidecode/issues/16
+      var ret;
+      while(str != (ret = unidecode(str)))
+        str = ret;
+      return ret;
     }
   }
 

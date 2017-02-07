@@ -86,9 +86,9 @@ function process_stdin(dict, abstracts) {
       const fields = ["id", "title", "journal", "authors", "year", "arXiv_id"];
       var obj = {};
       for (var i = 0; i < tuple.length; i++)
-        obj[fields[i]] = unidecode(tuple[i]);
+        obj[fields[i]] = unidecode(tuple[i]) || null;
       if (abstracts)
-        obj.abstract = unidecode(abstracts[tuple[5].replace(/^arxiv:/, '')]);
+        obj.abstract = unidecode(abstracts[tuple[5].replace(/^arxiv:/, '')]) || null;
       return obj;
     }
   }
