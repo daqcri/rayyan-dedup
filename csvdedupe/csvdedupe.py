@@ -101,14 +101,14 @@ class CSVDedupe(csvhelpers.CSVCommand) :
             logging.info('reading from previous training cache %s'
                                                           % self.settings_file)
             with open(self.settings_file, 'rb') as f:
-                deduper = dedupe.StaticDedupe(f)
+                deduper = dedupe.StaticDedupe(f, num_cores=self.num_cores)
 
             fields = {variable.field for variable in deduper.data_model.primary_fields}
             unique_d, parents = exact_matches(data_d, fields)
                 
         else:
             # # Create a new deduper object and pass our data model to it.
-            deduper = dedupe.Dedupe(self.field_definition)
+            deduper = dedupe.Dedupe(self.field_definition, num_cores=self.num_cores)
 
             fields = {variable.field for variable in deduper.data_model.primary_fields}
             unique_d, parents = exact_matches(data_d, fields)

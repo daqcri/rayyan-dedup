@@ -164,6 +164,7 @@ class CSVCommand(object) :
         self.recall_weight = self.configuration.get('recall_weight', 1)
         self.review_id = self.configuration.get('review_id', None)
         self.with_abstracts = self.configuration.get('with_abstracts', None)
+        self.num_cores = self.configuration.get('num_cores', None)
 
         if 'field_definition' in self.configuration:
             self.field_definition = self.configuration['field_definition']
@@ -193,6 +194,8 @@ class CSVCommand(object) :
             help='Number of random sample pairs to train off of')
         self.parser.add_argument('--recall_weight', type=int,
             help='Threshold that will maximize a weighted average of our precision and recall')
+        self.parser.add_argument('--num_cores', type=int,
+            help='Number of cores to utilize while training or deduping, defaults to number of CPUs reported by OS')
         self.parser.add_argument('-v', '--verbose', action='count', default=0)
 
 
