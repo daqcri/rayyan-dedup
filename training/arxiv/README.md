@@ -5,7 +5,7 @@
 Put this dataset somewhere outisde the repo, and store dataset path in a variable.
 
     cd ~ # or anywhere else
-    git clone git@github.com:JamesAHammerton/arxivDeduplicationDataset.git
+    git clone https://github.com/JamesAHammerton/arxivDeduplicationDataset
     cd arxivDeduplicationDataset
     unzip arXiv500K_released.zip
     cd arXiv500K_released

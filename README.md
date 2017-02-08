@@ -14,6 +14,8 @@ Once you have virtualenvwrapper set up,
 
 ```bash
 git clone git@github.com:daqcri/rayyan-dedup.git
+# or if you prefer https:
+git clone https://github.com/daqcri/rayyan-dedup
 cd rayyan-dedup
 . virtualenvwrapper.sh
 mkvirtualenv rayyan-dedup
