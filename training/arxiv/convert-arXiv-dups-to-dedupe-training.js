@@ -86,10 +86,19 @@ function process_stdin(dict, abstracts) {
       const fields = ["id", "title", "journal", "authors", "year", "arXiv_id"];
       var obj = {};
       for (var i = 0; i < tuple.length; i++)
-        obj[fields[i]] = unidecode(tuple[i]) || null;
+        obj[fields[i]] = safe_unidecode(tuple[i]) || null;
       if (abstracts)
-        obj.abstract = unidecode(abstracts[tuple[5].replace(/^arxiv:/, '')]) || null;
+        obj.abstract = safe_unidecode(abstracts[tuple[5].replace(/^arxiv:/, '')]) || null;
       return obj;
+    }
+
+    function safe_unidecode(str) {
+      // unidecode is sometimes buggy for this: 'Ã®'
+      // https://github.com/FGRibreau/node-unidecode/issues/16
+      var ret;
+      while(str != (ret = unidecode(str)))
+        str = ret;
+      return ret;
     }
   }
 
