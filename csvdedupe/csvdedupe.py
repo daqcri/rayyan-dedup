@@ -160,20 +160,20 @@ class CSVDedupe(csvhelpers.CSVCommand) :
         if self.review_id:
             rayyanhelpers.writeResults(self.job_id, self.dbstring, clustered_dupes)
         else:
-        write_function = csvhelpers.writeResults
-        # write out our results
-        if self.destructive:
-            write_function = csvhelpers.writeUniqueResults
+            write_function = csvhelpers.writeResults
+            # write out our results
+            if self.destructive:
+                write_function = csvhelpers.writeUniqueResults
 
-        if self.output_file:
-            with open(self.output_file, 'w', encoding='utf-8') as output_file:
-                write_function(clustered_dupes, self.input, output_file)
-        else:
-            if sys.version < '3' :
-                out = codecs.getwriter(locale.getpreferredencoding())(sys.stdout)
-                write_function(clustered_dupes, self.input, out)
-            else :
-                write_function(clustered_dupes, self.input, sys.stdout)
+            if self.output_file:
+                with open(self.output_file, 'w', encoding='utf-8') as output_file:
+                    write_function(clustered_dupes, self.input, output_file)
+            else:
+                if sys.version < '3' :
+                    out = codecs.getwriter(locale.getpreferredencoding())(sys.stdout)
+                    write_function(clustered_dupes, self.input, out)
+                else :
+                    write_function(clustered_dupes, self.input, sys.stdout)
 
 def exact_matches(data_d, match_fields):
     unique = {}
