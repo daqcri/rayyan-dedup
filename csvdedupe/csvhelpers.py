@@ -163,6 +163,7 @@ class CSVCommand(object) :
         self.sample_size = self.configuration.get('sample_size', 1500)
         self.recall_weight = self.configuration.get('recall_weight', 1)
         self.review_id = self.configuration.get('review_id', None)
+        self.job_id = self.configuration.get('job_id', None)
         self.with_abstracts = self.configuration.get('with_abstracts', None)
         self.num_cores = self.configuration.get('num_cores', None)
 
@@ -175,9 +176,11 @@ class CSVCommand(object) :
     def _common_args(self) :
         # optional arguments
         self.parser.add_argument('--review_id', type=str,
-            help='Review id to deduplicate, or comma separated ids to train with')
+            help='Rayyan review id to deduplicate, or comma separated ids to train with')
         self.parser.add_argument('--with_abstracts', action='store_true',
             help='If review id is given, use abstracts for deduplication or not')
+        self.parser.add_argument('--job_id', type=int,
+            help='If review id is given, job id to associate with when writing results back')
         self.parser.add_argument('--config_file', type=str,
             help='Path to configuration file. Must provide either a config_file or input and field_names.')
         self.parser.add_argument('--field_names', type=str, nargs="+",

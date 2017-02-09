@@ -157,6 +157,9 @@ class CSVDedupe(csvhelpers.CSVCommand) :
 
         logging.info('# duplicate sets %s' % len(clustered_dupes))
 
+        if self.review_id:
+            rayyanhelpers.writeResults(self.job_id, self.dbstring, clustered_dupes)
+        else:
         write_function = csvhelpers.writeResults
         # write out our results
         if self.destructive:

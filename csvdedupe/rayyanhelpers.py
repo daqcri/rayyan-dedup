@@ -1,6 +1,7 @@
 from csvhelpers import preProcess
 import psycopg2;
 import urlparse
+import logging
 
 class RayyanDBConnector:
     def __init__(self, dbstring):
@@ -12,14 +13,18 @@ class RayyanDBConnector:
         self.port = url.port
 
     def connect_database(self): 
-        connection = psycopg2.connect(database=self.database, user=self.username,\
+        self.connection = psycopg2.connect(database=self.database, user=self.username,\
             password=self.passwd, host=self.host, port=self.port)
-        print "Opened database successfully"
-        return connection
+        cursor = self.connection.cursor()
+        logging.info("Connected to Rayyan database")
+        return cursor
         
-    def disconnect_database(self,connection):   
-        connection.close(); 
-        print "Closed database successfully"
+    def commit(self):
+        self.connection.commit()
+
+    def disconnect_database(self):
+        self.connection.close(); 
+        logging.info("Disconnected from Rayyan database")
 
 def __makeunicode(input_string):
     if input_string is None:
@@ -31,8 +36,7 @@ def __makeunicode(input_string):
 
 def readReviewData(review_id, dbstring, with_abstracts=None):
     connector = RayyanDBConnector(dbstring)
-    conn = connector.connect_database()
-    cursor = conn.cursor()
+    cursor = connector.connect_database()
 
     select_abstracts = ", string_agg(distinct abstracts.content,' ') as abstracts" if with_abstracts else ""
     join_abstracts = "LEFT JOIN abstracts ON abstracts.article_id = articles.id" if with_abstracts else ""
@@ -59,7 +63,7 @@ def readReviewData(review_id, dbstring, with_abstracts=None):
     cursor.execute(query)
     data_values = cursor.fetchall()
 
-    # TODO treat year is integer
+    # TODO treat year is integer?
     data = {}
     # for i, row in enumerate(data_values):
     for row in data_values:
@@ -76,5 +80,21 @@ def readReviewData(review_id, dbstring, with_abstracts=None):
         }
     
     # return all the articles
-    connector.disconnect_database(conn)
+    connector.disconnect_database()
     return data
+
+def writeResults(job_id, dbstring, clustered_dupes):
+    logging.info('saving results to database')
+
+    connector = RayyanDBConnector(dbstring)
+    cursor = connector.connect_database()
+    query = "INSERT INTO dedup_results (dedup_job_id, cluster_id, article_id, score) VALUES "
+    values_arr = []
+
+    for cluster_id, cluster in enumerate(clustered_dupes):
+        for record_id, score in zip(cluster[0], cluster[1]):
+            values_arr.append(u'\n(%d, %d, %d, %f)' % (job_id, cluster_id, record_id, score))
+
+    query += (u',').join(values_arr) + ';'
+    cursor.execute(query)
+    connector.commit()
