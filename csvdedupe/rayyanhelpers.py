@@ -96,5 +96,7 @@ def writeResults(job_id, dbstring, clustered_dupes):
             values_arr.append(u'\n(%d, %d, %d, %f)' % (job_id, cluster_id, record_id, score))
 
     query += (u',').join(values_arr) + ';'
+    cursor.execute("DELETE FROM dedup_results WHERE dedup_job_id = %d" % job_id)
     cursor.execute(query)
     connector.commit()
+    connector.disconnect_database()
