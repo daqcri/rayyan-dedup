@@ -16,7 +16,7 @@ Levenshtein-search==1.4.2
 packaging==16.8
 persistent==4.2.2
 psycopg2==2.6.2
-pyhacrf-datamade==0.2.0
+git+https://github.com/hammady/pyhacrf.git#egg=pyhacrf-datamade
 PyLBFGS==0.2.0.3
 pyparsing==2.1.10
 rlr==2.4
