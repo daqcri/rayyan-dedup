@@ -27,3 +27,5 @@ while True:
     line = unidecode(line)
     line.encode('ascii') # double checking on unidecode output
     sys.stdout.write(line)
+
+sys.stderr.write("Finished. If your input has a specific format (CSV, JSON, XML, ...) make sure your output is still valid at the changed lines.\n")
