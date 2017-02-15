@@ -8,7 +8,7 @@ dedupe==1.6.1
 dedupe-hcluster==0.3.2
 DoubleMetaphone==0.1
 numpy==1.12.0
-fastcluster==1.1.22
+git+https://github.com/REVLWorld/fastcluster.git#egg=fastcluster&subdirectory=src/python
 future==0.16.0
 haversine==0.4.5
 highered==0.2.1
