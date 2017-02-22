@@ -88,12 +88,12 @@ def writeResults(job_id, dbstring, clustered_dupes):
 
     connector = RayyanDBConnector(dbstring)
     cursor = connector.connect_database()
-    query = "INSERT INTO dedup_results (dedup_job_id, cluster_id, article_id, score) VALUES "
+    query = "INSERT INTO dedup_results (dedup_job_id, cluster_id, article_id, score, created_at, updated_at) VALUES "
     values_arr = []
 
     for cluster_id, cluster in enumerate(clustered_dupes):
         for record_id, score in zip(cluster[0], cluster[1]):
-            values_arr.append(u'\n(%d, %d, %d, %f)' % (job_id, cluster_id, record_id, score))
+            values_arr.append(u'\n(%d, %d, %d, %f, now(), now())' % (job_id, cluster_id, record_id, score))
 
     query += (u',').join(values_arr) + ';'
     cursor.execute("DELETE FROM dedup_results WHERE dedup_job_id = %d" % job_id)
