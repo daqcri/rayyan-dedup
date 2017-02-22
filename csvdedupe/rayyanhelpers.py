@@ -91,9 +91,10 @@ def writeResults(job_id, dbstring, clustered_dupes):
     query = "INSERT INTO dedup_results (dedup_job_id, cluster_id, article_id, score, created_at, updated_at) VALUES "
     values_arr = []
 
+    now = "now() at time zone 'utc'"
     for cluster_id, cluster in enumerate(clustered_dupes):
         for record_id, score in zip(cluster[0], cluster[1]):
-            values_arr.append(u'\n(%d, %d, %d, %f, now(), now())' % (job_id, cluster_id, record_id, score))
+            values_arr.append(u'\n(%d, %d, %d, %f, %s, %s)' % (job_id, cluster_id, record_id, score, now, now))
 
     query += (u',').join(values_arr) + ';'
     cursor.execute("DELETE FROM dedup_results WHERE dedup_job_id = %d" % job_id)
