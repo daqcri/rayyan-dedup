@@ -135,8 +135,12 @@ class CSVDedupe(csvhelpers.CSVCommand) :
 
         logging.info('finding a good threshold with a recall_weight of %s' %
                      self.recall_weight)
-        threshold = deduper.threshold(unique_d, recall_weight=self.recall_weight)
-
+        try:
+            threshold = deduper.threshold(unique_d, recall_weight=self.recall_weight)
+        except ValueError as e:
+            logging.info("No records blocked, just fail silently")
+            sys.exit(0)
+        
         # `duplicateClusters` will return sets of record IDs that dedupe
         # believes are all referring to the same entity.
 
