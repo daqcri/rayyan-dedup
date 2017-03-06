@@ -14,6 +14,8 @@ setup(
     version = '0.0.1',
     description="csvdedupe-based command line tool for deduplicating Rayyan articles",
     author="Hossam Hammady, Forest Gregg, Derek Eder",
+    author_email="github@hammady.net",
+    url="https://github.com/daqcri/rayyan-dedup",
     license="MIT",
     packages=['csvdedupe'],
     entry_points ={
