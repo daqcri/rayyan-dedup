@@ -25,22 +25,24 @@
 
 ### Train a dedupe model
 
+    *TODO* instructions to create config files
+
     # without abstracts
     model=rayyan-dedupe-model
     rm $model
-    time ../../rayyan-dedup --review_id <X,Y,Z> --training_file qcrowd-training.json --config_file ../../config/dedupe-config.json --skip_training --settings_file $model
+    time rayyan-dedup --review_id <X,Y,Z> --training_file qcrowd-training.json --config_file config/dedupe-config.json --skip_training --settings_file $model
     
     # with abstracts
     model=rayyan-dedupe-model.abs
     rm $model
-    time ../../rayyan-dedup --review_id <X,Y,Z> --with_abstracts --training_file qcrowd-training.abs.json --config_file ../../config/dedupe-config.abs.json --skip_training --settings_file $model
+    time rayyan-dedup --review_id <X,Y,Z> --with_abstracts --training_file qcrowd-training.abs.json --config_file config/dedupe-config.abs.json --skip_training --settings_file $model
 
 ### Test the dedupe model on unseen data
 
     # without abstracts
     model=rayyan-dedupe-model
-    time ../../rayyan-dedup --review_id <XYZ> --config_file ../../config/dedupe-config.json --skip_training --settings_file $model
+    time rayyan-dedup --review_id <XYZ> --config_file config/dedupe-config.json --skip_training --settings_file $model
     
     # with abstracts
     model=rayyan-dedupe-model.abs
-    time ../../rayyan-dedup --review_id <XYZ> --with_abstracts --config_file ../../config/dedupe-config.abs.json --skip_training --settings_file $model
+    time rayyan-dedup --review_id <XYZ> --with_abstracts --config_file config/dedupe-config.abs.json --skip_training --settings_file $model

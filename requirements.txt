@@ -8,7 +8,6 @@ dedupe==1.6.1
 dedupe-hcluster==0.3.2
 DoubleMetaphone==0.1
 numpy==1.12.0
-#git+https://github.com/REVLWorld/fastcluster.git#egg=fastcluster&subdirectory=src/python
 fastcluster==1.1.22
 future==0.16.0
 haversine==0.4.5
@@ -17,7 +16,6 @@ Levenshtein-search==1.4.2
 packaging==16.8
 persistent==4.2.2
 psycopg2==2.6.2
-#git+https://github.com/hammady/pyhacrf.git#egg=pyhacrf-datamade
 pyhacrf-datamade==0.2.0
 PyLBFGS==0.2.0.3
 pyparsing==2.1.10

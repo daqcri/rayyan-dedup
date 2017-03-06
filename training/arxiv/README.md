@@ -45,22 +45,24 @@ Put this dataset somewhere outisde the repo, and store dataset path in a variabl
 
 ### Train a dedupe model
 
+    *TODO* instructions to create config files
+
     # without abstracts
     model=mymodel.10k
     rm $model
-    time ../../rayyan-dedup $arxiv/arXiv.docs.10k.csv --training_file $arxiv/arXiv-training.10k.json --config_file ../../config/dedupe-config.json --output_file $arxiv/arXiv.docs.10k.dedup.csv --settings_file $model --skip_training
+    time rayyan-dedup $arxiv/arXiv.docs.10k.csv --training_file $arxiv/arXiv-training.10k.json --config_file config/dedupe-config.json --output_file $arxiv/arXiv.docs.10k.dedup.csv --settings_file $model --skip_training
     
     # with abstracts
     model=mymodel.10k.abs
     rm $model
-    time ../../rayyan-dedup $arxiv/arXiv.docs.10k.abs.csv --training_file $arxiv/arXiv-training.10k.abs.json --config_file ../../config/dedupe-config.abs.json --output_file $arxiv/arXiv.docs.10k.abs.dedup.csv --settings_file $model --skip_training
+    time rayyan-dedup $arxiv/arXiv.docs.10k.abs.csv --training_file $arxiv/arXiv-training.10k.abs.json --config_file config/dedupe-config.abs.json --output_file $arxiv/arXiv.docs.10k.abs.dedup.csv --settings_file $model --skip_training
 
 ### Test the dedupe model on unseen data
 
     # without abstracts
     model=mymodel.10k
-    time ../../rayyan-dedup $arxiv/arXiv.docs.100k.csv --config_file ../../config/dedupe-config.json --output_file $arxiv/arXiv.docs.100k.dedup.csv --skip_training --settings_file $model
+    time rayyan-dedup $arxiv/arXiv.docs.100k.csv --config_file config/dedupe-config.json --output_file $arxiv/arXiv.docs.100k.dedup.csv --skip_training --settings_file $model
     
     # with abstracts
     model=mymodel.10k.abs
-    time ../../rayyan-dedup $arxiv/arXiv.docs.100k.abs.csv --config_file ../../config/dedupe-config.abs.json --output_file $arxiv/arXiv.docs.100k.abs.dedup.csv --skip_training --settings_file $model
+    time rayyan-dedup $arxiv/arXiv.docs.100k.abs.csv --config_file config/dedupe-config.abs.json --output_file $arxiv/arXiv.docs.100k.abs.dedup.csv --skip_training --settings_file $model

@@ -18,8 +18,11 @@ git clone git@github.com:daqcri/rayyan-dedup.git
 git clone https://github.com/daqcri/rayyan-dedup
 cd rayyan-dedup
 . virtualenvwrapper.sh
+# first time
 mkvirtualenv rayyan-dedup
-pip install -r requirements.txt
+# later on
+workon rayyan-dedup
+pip install -e .
 ```
 
 ## Training
@@ -36,13 +39,13 @@ On heroku, `DATABASE_URL` is automatically set when Heroku PostgresQL add-on is 
 
     # without abstracts
     model=models/arXiv-model.10k
-    time ./rayyan-dedup --review_id <XYZ> --config_file config/dedupe-config.json --skip_training --settings_file $model
+    time rayyan-dedup --review_id <XYZ> --job_id <N> --config_file config/dedupe-config.json --skip_training --settings_file $model
     
     # with abstracts
     model=models/arXiv-model.10k.abs
-    time ./rayyan-dedup --review_id <XYZ> --with_abstracts --config_file config/dedupe-config.abs.json --skip_training --settings_file $model
+    time rayyan-dedup --review_id <XYZ> --job_id <N> --with_abstracts --config_file config/dedupe-config.abs.json --skip_training --settings_file $model
 
-Results are stored in the database.
+Results are stored in the database in the corresponding job with id <N>.
 
 ## Testing
 
