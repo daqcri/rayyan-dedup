@@ -32,7 +32,7 @@ class CSVDedupe(csvhelpers.CSVCommand) :
                     # We need to get control of STDIN again.
                     # This is a UNIX/Mac OSX solution only
                     # http://stackoverflow.com/questions/7141331/pipe-input-to-python-program-and-later-get-input-from-user
-                    # 
+                    #
                     # Same question has a Windows solution
                     sys.stdin = open('/dev/tty')  # Unix only solution,
                 else:
@@ -55,7 +55,7 @@ class CSVDedupe(csvhelpers.CSVCommand) :
             except KeyError:
                 raise self.parser.error("You must provide field_names")
         else :
-            self.field_names = [self.field_def['field'] 
+            self.field_names = [self.field_def['field']
                                 for field_def in self.field_definitions]
 
         self.destructive = self.configuration.get('destructive', False)
@@ -105,7 +105,7 @@ class CSVDedupe(csvhelpers.CSVCommand) :
 
             fields = {variable.field for variable in deduper.data_model.primary_fields}
             unique_d, parents = exact_matches(data_d, fields)
-                
+
         else:
             # # Create a new deduper object and pass our data model to it.
             deduper = dedupe.Dedupe(self.field_definition, num_cores=self.num_cores)
@@ -126,7 +126,7 @@ class CSVDedupe(csvhelpers.CSVCommand) :
 
         # ## Clustering
 
-        # Find the threshold that will maximize a weighted average of our precision and recall. 
+        # Find the threshold that will maximize a weighted average of our precision and recall.
         # When we set the recall weight to 2, we are saying we care twice as much
         # about recall as we do precision.
         #
@@ -140,7 +140,7 @@ class CSVDedupe(csvhelpers.CSVCommand) :
         except ValueError as e:
             logging.info("No records blocked, just fail silently")
             sys.exit(0)
-        
+
         # `duplicateClusters` will return sets of record IDs that dedupe
         # believes are all referring to the same entity.
 
@@ -159,8 +159,25 @@ class CSVDedupe(csvhelpers.CSVCommand) :
 
         clustered_dupes = expanded_clustered_dupes
 
+        self.writeClusters(clustered_dupes, data_d)
+
         logging.info('# duplicate sets %s' % len(clustered_dupes))
 
+        self.writeResults(clustered_dupes)
+
+    def writeClusters(self, clustered_dupes, data_d):
+        if self.write_clusters:
+            if self.output_file:
+                with open(self.output_file + ".clusters", 'w', encoding='utf-8') as output_file:
+                    csvhelpers.writeClusters(clustered_dupes, data_d, self.id_field, output_file)
+            else:
+                if sys.version < '3' :
+                    out = codecs.getwriter(locale.getpreferredencoding())(sys.stdout)
+                    csvhelpers.writeClusters(clustered_dupes, data_d, self.id_field, out)
+                else :
+                    csvhelpers.writeClusters(clustered_dupes, data_d, self.id_field, sys.stdout)
+
+    def writeResults(self, clustered_dupes):
         if self.review_id:
             rayyanhelpers.writeResults(self.job_id, self.dbstring, clustered_dupes)
         else:

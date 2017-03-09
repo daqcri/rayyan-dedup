@@ -46,7 +46,7 @@ def readData(input_file, field_names, prefix=None):
 
     reader = csv.DictReader(StringIO(input_file))
     for i, row in enumerate(reader):
-        clean_row = {k: preProcess(v) for (k, v) in row.items() if k is not None}
+        clean_row = {k: preProcess(v) if k in field_names else v for (k, v) in row.items() if k is not None}
         if prefix:
             row_id = u"%s|%s" % (prefix, i)
         else:
@@ -126,6 +126,14 @@ def writeUniqueResults(clustered_dupes, input_file, output_file):
             row.insert(0, cluster_id)
             writer.writerow(row)
 
+def writeClusters(clustered_dupes, data_d, id_field, output_file):
+    logging.info('saving cluster membership data to: %s' % output_file)
+    writer = csv.writer(output_file)
+
+    for row_ids, scores in clustered_dupes:
+        row = map(lambda index: str(data_d[index][id_field]), row_ids)
+        writer.writerow(row)
+
 class CSVCommand(object) :
     def __init__(self) :
         self.parser = argparse.ArgumentParser(
@@ -155,6 +163,8 @@ class CSVCommand(object) :
         self.configuration.update(args_d)
 
         self.output_file = self.configuration.get('output_file', None)
+        self.write_clusters = self.configuration.get('write_clusters', False)
+        self.id_field = self.configuration.get('id_field', 'id')
         self.skip_training = self.configuration.get('skip_training', False)
         self.training_file = self.configuration.get('training_file',
                                                'training.json')
@@ -187,6 +197,10 @@ class CSVCommand(object) :
             help='List of column names for dedupe to pay attention to')
         self.parser.add_argument('--output_file', type=str,
             help='CSV file to store deduplication results')
+        self.parser.add_argument('--write_clusters', action='store_true',
+            help='Write cluster membership information to a <output_file>.clusters or to stdout if no output_file is given')
+        self.parser.add_argument('--id_field', type=str,
+            help='The id field name to use when writing cluster data')
         self.parser.add_argument('--skip_training', action='store_true',
             help='Skip labeling examples by user and read training from training_files only')
         self.parser.add_argument('--training_file', type=str,
