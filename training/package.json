@@ -4,6 +4,7 @@
   "description": "Tools to convert arXiv-dataset and qcrowd to formats dedupe python library can understand",
   "dependencies": {
     "csv": "^1.1.1",
+    "csv-parse": "^1.2.0",
     "unidecode": "^0.1.8",
     "xml2js": "^0.4.17"
   },

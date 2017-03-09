@@ -6,7 +6,6 @@ logfile
 *.o
 *.so
 *.py.*
-*.*gz
 *.html
 .#*
 *.*#
