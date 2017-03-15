@@ -57,6 +57,29 @@ Put this dataset somewhere outisde the repo, and store dataset path in a variabl
     rm $model
     time rayyan-dedup $arxiv/arXiv.docs.10k.abs.csv --training_file $arxiv/arXiv-training.10k.abs.json --config_file config/dedupe-config.abs.json --output_file $arxiv/arXiv.docs.10k.abs.dedup.csv --settings_file $model --skip_training
 
+### Putting it all together
+
+    modid=75k # must be in the format integer + k
+
+    headcount=`echo $modid | sed 's/k/000/'`
+    config=dedupe-config.json
+    model=arXiv-model.${modid}
+
+    cd rayyan-dedup/training/arxiv # or whatever path
+
+    head -$headcount $arxiv/arXiv.docs > $arxiv/arXiv.docs.${modid}
+    wc -l $arxiv/arXiv.docs.${modid}
+
+    cat $arxiv/arXiv.duplicates $arxiv/arXiv.nonDuplicates | time ./convert-arXiv-dups-to-dedupe-training.js $arxiv/arXiv.docs.${modid} > $arxiv/arXiv-training.${modid}.json
+
+    ../utf8-to-ascii.py < $arxiv/arXiv-training.${modid}.json > $arxiv/arXiv-training.${modid}-ascii.json
+
+    ./tsv2csv.js < $arxiv/arXiv.docs.${modid} > $arxiv/arXiv.docs.${modid}.csv
+    wc -l $arxiv/arXiv.docs.${modid}.csv
+
+    time rayyan-dedup $arxiv/arXiv.docs.${modid}.csv --training_file $arxiv/arXiv-training.${modid}-ascii.json --config_file $config --output_file $arxiv/arXiv.docs.${modid}.dedup.csv --settings_file $model --skip_training --num_cores 70
+
+
 ### Test the dedupe model on unseen data
 
     # without abstracts
