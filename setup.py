@@ -11,7 +11,7 @@ if sys.version < '3':
 
 setup(
     name = "rayyan-dedup",
-    version = '0.0.1',
+    version = '0.0.2',
     description="csvdedupe-based command line tool for deduplicating Rayyan articles",
     author="Hossam Hammady, Forest Gregg, Derek Eder",
     author_email="github@hammady.net",
