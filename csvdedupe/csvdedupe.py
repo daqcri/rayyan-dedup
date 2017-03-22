@@ -81,6 +81,10 @@ class CSVDedupe(csvhelpers.CSVCommand) :
 
         logging.info('imported %d rows', len(data_d))
 
+        if len(data_d) == 0:
+            logging.info("Empty input, just fail silently")
+            sys.exit(0)
+
         # sanity check for provided field names in CSV file
         for field in self.field_definition:
             if field['type'] != 'Interaction':
