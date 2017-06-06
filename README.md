@@ -1,4 +1,4 @@
-# rayyan-dedup
+# rayyan-dedup-training
 
 Command line tools for using the [dedupe python library](https://github.com/datamade/dedupe) for deduplicating Rayyan review articles.
 
