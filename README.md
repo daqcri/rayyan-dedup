@@ -4,8 +4,6 @@ Command line tools for using the [dedupe python library](https://github.com/data
 
 `rayyan-dedup` - takes review id and identifies duplicates.
 
-[![Build Status](https://travis-ci.org/daqcri/rayyan-dedup.png?branch=master)](https://travis-ci.org/daqcri/rayyan-dedup)
-
 ## Installation and dependencies
 
 We recommend using [virtualenv](http://virtualenv.readthedocs.org/en/latest/virtualenv.html) and [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/install.html) for working in a virtualized development environment. [Read how to set up virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
@@ -13,16 +11,17 @@ We recommend using [virtualenv](http://virtualenv.readthedocs.org/en/latest/virt
 Once you have virtualenvwrapper set up,
 
 ```bash
-git clone git@github.com:daqcri/rayyan-dedup.git
+git clone git@github.com:daqcri/rayyan-dedup-training.git
 # or if you prefer https:
-git clone https://github.com/daqcri/rayyan-dedup
-cd rayyan-dedup
+git clone https://github.com/daqcri/rayyan-dedup-training
+cd rayyan-dedup-training
 . virtualenvwrapper.sh
 # first time
-mkvirtualenv rayyan-dedup
+mkvirtualenv rayyan-dedup-training
 # later on
-workon rayyan-dedup
-pip install -e .
+workon rayyan-dedup-training
+pip install -r requirements.txt
+python setup.py develop
 ```
 
 ## Training
